@@ -1,0 +1,26 @@
+[package]
+name = "antiwaste-cad"
+version = "0.1.0"
+edition = "2021"
+description = "AntiWaste CAD — инструмент для автоматического обнаружения почти дублирующихся линий, дуг и слоёв в DXF-чертежах и их исправления одним щелчком"
+authors = ["Rafych"]
+
+[dependencies]
+eframe = { version = "0.27", features = ["persistence"] }
+egui = "0.27"
+serde = { version = "1", features = ["derive"] }
+image = { version = "0.24", default-features = false, features = ["png"] }
+dxf = "0.5"
+encoding_rs = "0.8"
+chardetng = "0.1"
+rfd = "0.14"
+
+[target.'cfg(windows)'.build-dependencies]
+winres = "0.1"
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
+codegen-units = 1
+panic = "abort"
