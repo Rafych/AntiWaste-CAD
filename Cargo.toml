@@ -1,7 +1,7 @@
 [package]
 name = "antiwaste-cad"
-version = "0.1.0"
-edition = "2021"
+version = "1.0.0"
+edition = "2024"
 description = "AntiWaste CAD — инструмент для автоматического обнаружения почти дублирующихся линий, дуг и слоёв в DXF-чертежах и их исправления одним щелчком"
 authors = ["Rafych"]
 
