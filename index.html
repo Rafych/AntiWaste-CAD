@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AntiWaste CAD — DXF Overlay Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F6F8;
+  --panel:#FFFFFF;
+  --faint:#EEEEF1;
+  --border:#E4E4E8;
+  --text:#1C1C1E;
+  --text-muted:#6E6E73;
+  --accent:#007AFF;
+  --a-color:#007AFF;
+  --b-color:#FF453A;
+  --radius-lg:14px;
+  --radius-md:10px;
+  --shadow:0 10px 32px rgba(0,0,0,0.10);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Google Sans','Noto Sans JP',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+[lang-block]{display:none;}
+[lang-block].active{display:block;}
+.wrap{
+  max-width:920px;
+  margin:0 auto;
+  padding:0 24px;
+}
+header{
+  padding:22px 0;
+}
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brand-mark{
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  position:relative;
+  background:var(--panel);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  flex-shrink:0;
+}
+.brand-mark span{
+  position:absolute;
+  width:16px;
+  height:16px;
+  border-radius:4px;
+}
+.brand-mark span:nth-child(1){
+  background:var(--a-color);
+  top:7px;
+  left:6px;
+  opacity:0.9;
+}
+.brand-mark span:nth-child(2){
+  background:var(--b-color);
+  top:11px;
+  left:12px;
+  opacity:0.9;
+  mix-blend-mode:multiply;
+}
+.brand-name{
+  font-weight:700;
+  font-size:17px;
+  letter-spacing:-0.01em;
+}
+.lang-switch{
+  display:flex;
+  gap:4px;
+  background:var(--faint);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:3px;
+}
+.lang-switch button{
+  border:none;
+  background:transparent;
+  color:var(--text-muted);
+  font-family:inherit;
+  font-size:13px;
+  font-weight:600;
+  padding:6px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:background 0.15s ease, color 0.15s ease;
+}
+.lang-switch button.active{
+  background:var(--accent);
+  color:#fff;
+}
+.hero{
+  padding:56px 0 40px;
+  text-align:center;
+}
+.hero-visual{
+  width:220px;
+  height:150px;
+  margin:0 auto 32px;
+  position:relative;
+}
+.hero-visual svg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.hero-visual .layer-a{
+  stroke:var(--a-color);
+  animation:driftA 5s ease-in-out infinite;
+}
+.hero-visual .layer-b{
+  stroke:var(--b-color);
+  animation:driftB 5s ease-in-out infinite;
+}
+@keyframes driftA{
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(-4px,-3px);}
+}
+@keyframes driftB{
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(4px,3px);}
+}
+h1{
+  font-size:40px;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  margin:0 0 10px;
+}
+.subtitle{
+  font-size:17px;
+  color:var(--text-muted);
+  font-weight:500;
+  margin:0 0 28px;
+}
+.download-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--accent);
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  font-size:15px;
+  padding:13px 26px;
+  border-radius:var(--radius-md);
+  box-shadow:0 6px 18px rgba(0,122,255,0.28);
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+}
+.download-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 24px rgba(0,122,255,0.34);
+}
+.download-btn svg{
+  width:16px;
+  height:16px;
+}
+main{
+  padding-bottom:20px;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow);
+  padding:32px;
+  margin-bottom:24px;
+}
+.card h2{
+  font-size:13px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--text-muted);
+  margin:0 0 14px;
+}
+.card p{
+  font-size:16px;
+  margin:0;
+  color:var(--text);
+}
+.card p + p{
+  margin-top:12px;
+}
+footer{
+  padding:8px 0 140px;
+}
+.license-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:28px 32px;
+}
+.license-card h3{
+  font-size:13px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:var(--text-muted);
+  margin:20px 0 8px;
+}
+.license-card h3:first-child{
+  margin-top:0;
+}
+.license-card p, .license-card ul{
+  font-size:14px;
+  color:var(--text-muted);
+  margin:0;
+}
+.license-card ul{
+  padding-left:0;
+  list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.license-card li{
+  background:var(--faint);
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:5px 12px;
+  font-size:13px;
+  color:var(--text);
+}
+.license-card a{
+  color:var(--accent);
+  text-decoration:none;
+}
+.license-card a:hover{
+  text-decoration:underline;
+}
+@media (max-width:600px){
+  h1{font-size:32px;}
+  .card{padding:24px;}
+  .license-card{padding:22px 20px;}
+  .header-row{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <div class="brand">
+      <div class="brand-mark"><svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" style="display:block;border-radius:9px;">
+<defs>
+<linearGradient id="fixGrad1" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#5B8CFF"/>
+<stop offset="1" stop-color="#2E5CE6"/>
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="200" height="200" rx="44" fill="#fcfcfd" stroke="#eef0f2" stroke-width="1"/>
+<rect x="52" y="52" width="96" height="96" rx="22" fill="none" stroke="#d4d8de" stroke-width="3" stroke-dasharray="1.5 8" stroke-linecap="round"/>
+<path d="M118,52 C138,52 148,62 148,82" fill="none" stroke="url(#fixGrad1)" stroke-width="4.5" stroke-linecap="round"/>
+<circle cx="118" cy="52" r="4" fill="#2E5CE6"/>
+<circle cx="148" cy="82" r="4" fill="#2E5CE6"/>
+</svg></div>
+      <div class="brand-name">AntiWaste CAD</div>
+    </div>
+    <div class="lang-switch">
+      <button data-lang="en" class="active">EN</button>
+      <button data-lang="ru">RU</button>
+      <button data-lang="ja">JA</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-visual" style="width:150px;height:150px;">
+      <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img">
+<defs>
+<linearGradient id="fixGrad2" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#5B8CFF"/>
+<stop offset="1" stop-color="#2E5CE6"/>
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="200" height="200" rx="44" fill="#fcfcfd" stroke="#eef0f2" stroke-width="1"/>
+<rect x="52" y="52" width="96" height="96" rx="22" fill="none" stroke="#d4d8de" stroke-width="3" stroke-dasharray="1.5 8" stroke-linecap="round"/>
+<path d="M118,52 C138,52 148,62 148,82" fill="none" stroke="url(#fixGrad2)" stroke-width="4.5" stroke-linecap="round"/>
+<circle cx="118" cy="52" r="4" fill="#2E5CE6"/>
+<circle cx="148" cy="82" r="4" fill="#2E5CE6"/>
+</svg>
+    </div>
+
+    <div lang-block="en" class="active">
+      <h1>AntiWaste CAD</h1>
+      <p class="subtitle">DXF Overlay Viewer</p>
+    </div>
+    <div lang-block="ru">
+      <h1>AntiWaste CAD</h1>
+      <p class="subtitle">Просмотр наложения DXF</p>
+    </div>
+    <div lang-block="ja">
+      <h1>AntiWaste CAD</h1>
+      <p class="subtitle">DXF 重ね合わせビューア</p>
+    </div>
+
+    <a class="download-btn" href="https://github.com/Rafych/AntiWaste-CAD/releases/latest" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v12"></path>
+        <path d="M7 10l5 5 5-5"></path>
+        <path d="M5 21h14"></path>
+      </svg>
+      <span lang-block="en" class="active">Download</span>
+      <span lang-block="ru">Скачать</span>
+      <span lang-block="ja">ダウンロード</span>
+    </a>
+  </section>
+
+  <div class="card">
+    <div lang-block="en" class="active">
+      <h2>About</h2>
+      <p>CAD error detection and correction using rule-based algorithms.</p>
+    </div>
+    <div lang-block="ru">
+      <h2>О приложении</h2>
+      <p>Обнаружение и исправление ошибок в CAD-чертежах на основе алгоритмов, использующих заданные правила.</p>
+    </div>
+    <div lang-block="ja">
+      <h2>概要</h2>
+      <p>ルールベースのアルゴリズムによるCADエラーの検出と修正。</p>
+    </div>
+  </div>
+
+</main>
+
+<footer class="wrap">
+  <div class="license-card">
+    <div lang-block="en" class="active">
+      <h3>Software</h3>
+      <p>AntiWaste CAD is released under the MIT License. Created by Rafych. Source code: <a href="https://github.com/Rafych/AntiWaste-CAD" target="_blank" rel="noopener">github.com/Rafych/AntiWaste-CAD</a></p>
+      <h3>Libraries Used</h3>
+      <ul>
+        <li>eframe / egui</li><li>dxf</li><li>rfd</li><li>encoding_rs</li><li>chardetng</li><li>serde</li><li>image</li><li>winres</li>
+      </ul>
+      <h3>Fonts Used</h3>
+      <p>Google Sans and Noto Sans JP are provided by Google LLC under the SIL Open Font License, Version 1.1 (OFL).</p>
+    </div>
+    <div lang-block="ru">
+      <h3>Программное обеспечение</h3>
+      <p>AntiWaste CAD распространяется по лицензии MIT. Автор — Rafych. Исходный код: <a href="https://github.com/Rafych/AntiWaste-CAD" target="_blank" rel="noopener">github.com/Rafych/AntiWaste-CAD</a></p>
+      <h3>Используемые библиотеки</h3>
+      <ul>
+        <li>eframe / egui</li><li>dxf</li><li>rfd</li><li>encoding_rs</li><li>chardetng</li><li>serde</li><li>image</li><li>winres</li>
+      </ul>
+      <h3>Используемые шрифты</h3>
+      <p>Google Sans и Noto Sans JP предоставляются Google LLC по лицензии SIL Open Font License, версия 1.1 (OFL).</p>
+    </div>
+    <div lang-block="ja">
+      <h3>本ソフトウェアについて</h3>
+      <p>本ソフトウェアは MIT License のもとで公開されています。作者は Rafych です。ソースコード: <a href="https://github.com/Rafych/AntiWaste-CAD" target="_blank" rel="noopener">github.com/Rafych/AntiWaste-CAD</a></p>
+      <h3>使用ライブラリ</h3>
+      <ul>
+        <li>eframe / egui</li><li>dxf</li><li>rfd</li><li>encoding_rs</li><li>chardetng</li><li>serde</li><li>image</li><li>winres</li>
+      </ul>
+      <h3>使用フォント</h3>
+      <p>Google Sans と Noto Sans JP は、いずれも SIL Open Font License, Version 1.1（OFL）のもとで Google LLC により提供されています。</p>
+    </div>
+  </div>
+</footer>
+
+<div style="height:20px;width:100%;"></div>
+
+<script>
+var pageTitles = {
+  en: 'AntiWaste CAD — DXF Overlay Viewer',
+  ru: 'AntiWaste CAD — Просмотр наложения DXF',
+  ja: 'AntiWaste CAD — DXF 重ね合わせビューア'
+};
+document.querySelectorAll('.lang-switch button').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var lang = btn.getAttribute('data-lang');
+    document.querySelectorAll('.lang-switch button').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('[lang-block]').forEach(function(el){
+      el.classList.toggle('active', el.getAttribute('lang-block') === lang);
+    });
+    document.documentElement.setAttribute('lang', lang);
+    document.title = pageTitles[lang];
+  });
+});
+</script>
+
+</body>
+</html>
