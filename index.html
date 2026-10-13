@@ -249,6 +249,38 @@ footer{
 .license-card a:hover{
   text-decoration:underline;
 }
+.notice{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  background:#FFF0EF;
+  border:1px solid #F5B5B0;
+  border-radius:var(--radius-lg);
+  padding:18px 22px;
+  margin:8px 0 0;
+  box-shadow:var(--shadow);
+}
+.notice-icon{
+  width:22px;
+  height:22px;
+  flex-shrink:0;
+  margin-top:2px;
+  color:#D70015;
+}
+.notice-title{
+  font-size:13px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:#D70015;
+  margin:0 0 4px;
+}
+.notice p{
+  margin:0;
+  font-size:15px;
+  font-weight:500;
+  color:var(--text);
+}
 @media (max-width:600px){
   h1{font-size:32px;}
   .card{padding:24px;}
@@ -286,6 +318,28 @@ footer{
 </header>
 
 <main class="wrap">
+
+  <div class="notice" role="note">
+    <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 7v6"></path>
+      <path d="M12 17h.01"></path>
+    </svg>
+    <div>
+      <div lang-block="en" class="active">
+        <div class="notice-title">Notice</div>
+        <p>With AI now capable of editing CAD designs, this project is no longer as necessary as it once was. As a result, development and updates have been discontinued.</p>
+      </div>
+      <div lang-block="ru">
+        <div class="notice-title">Уведомление</div>
+        <p>Поскольку ИИ теперь способен редактировать CAD-чертежи, этот проект стал менее необходим. В связи с этим разработка и обновления прекращены.</p>
+      </div>
+      <div lang-block="ja">
+        <div class="notice-title">お知らせ</div>
+        <p>AIがCADデザインを編集できるようになったことで、本プロジェクトの必要性は以前ほど高くなくなりました。そのため、開発および更新は終了しました。</p>
+      </div>
+    </div>
+  </div>
 
   <section class="hero">
     <div class="hero-visual" style="width:150px;height:150px;">
